@@ -101,23 +101,22 @@ void LeeSuperBloque(EXT_SIMPLE_SUPERBLOCK *psup){
 }
 
 void Directorio(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos){
-        
-    //Recorre el directorio
-    //i=1 evitando el directorio raiz
-    for(int i=1; i<inodos_count+1; i++){
-        printf("%s ",directorio[i].dir_nfich); //imprime nombre
+	//Recorre el directorio
+    	//i=1 evitando el directorio raiz
+   for(int i=1; i<inodos_count+1; i++){
+	printf("%s ",directorio[i].dir_nfich); //imprime nombre
         printf("Tamaño:%d", inodos->blq_inodos[directorio[i].dir_inodo].size_fichero); //imprime tamaño
         printf("Inodo:%d",directorio[i].dir_inodo); // imprime inodo
         printf("Bloques:"); //imprime bloques
         //bloques ocupados por cada fichero
         for(int j=0; j<MAX_NUMS_BLOQUE_INODO; j++){
-            if( inodos->blq_inodos[directorio[i].dir_inodo].i_nbloque[j]!= 65535){
-                printf("%d ",inodos->blq_inodos[directorio[i].dir_inodo].i_nbloque[j]);
-            }
+            	if( inodos->blq_inodos[directorio[i].dir_inodo].i_nbloque[j]!= 65535){
+                	printf("%d ",inodos->blq_inodos[directorio[i].dir_inodo].i_nbloque[j]);
+            	}
 	}
-        printf("\n");
-    }
-    printf("\n");
+    	printf("\n");
+   }
+printf("\n");
 }
 
 int ComprobarFichero(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos, char *nombre){
@@ -158,30 +157,28 @@ int Renombrar(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos, char *nombrea
 }
 
 void Printbytemaps(EXT_BYTE_MAPS *ext_bytemaps) {
-    //Print inodos
-    printf("Inodos:");
-    for(int i=0; i<MAX_INODOS; i++){
-        printf("%u ",ext_bytemaps->bmap_inodos[i]);
-    }
+	//Print inodos
+   	 printf("Inodos:");
+   	 for(int i=0; i<MAX_INODOS; i++){
+       	 printf("%u ",ext_bytemaps->bmap_inodos[i]);
+	 }
     
     //Print Bloques
     printf("\nBloques [0-25] :");
-    
     for(int i=0; i<MAX_BLOQUES_PARTICION; i++){
         printf("%d ",ext_bytemaps->bmap_bloques[i]);
     }
-    
     printf("\n");
 }
 
 int Borrar(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos, EXT_BYTE_MAPS *ext_bytemaps, EXT_SIMPLE_SUPERBLOCK *ext_superblock, char *bnombre,  FILE *fich){
-   if(ExisteFich(directorio, inodos, bnombre) == 0){
-      //borrar
-      return 0;
-   } else {
-      printf("ERROR: fichero no encontrado.\n");
-      return 0;
-   }
+	if(ExisteFich(directorio, inodos, bnombre) == 0){
+      		//borrar
+      		return 0;
+   	} else {
+      		printf("ERROR: El fichero no existe.\n");
+     		 return 0;
+   	}
 }
 
 
