@@ -20,7 +20,7 @@ int Imprimir(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos,
              EXT_DATOS *memdatos, char *nombre)
 int Borrar(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos,
            EXT_BYTE_MAPS *ext_bytemaps, EXT_SIMPLE_SUPERBLOCK *ext_superblock,
-           char *nombre,  FILE *fich);
+           char *bnombre,  FILE *fich);
 int Copiar(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos,
            EXT_BYTE_MAPS *ext_bytemaps, EXT_SIMPLE_SUPERBLOCK *ext_superblock,
            EXT_DATOS *memdatos, char *nombreorigen, char *nombredestino,  FILE *fich);
@@ -174,14 +174,15 @@ void Printbytemaps(EXT_BYTE_MAPS *ext_bytemaps) {
     printf("\n");
 }
 
-
-
-
-
-
-
-
-
+int Borrar(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos, EXT_BYTE_MAPS *ext_bytemaps, EXT_SIMPLE_SUPERBLOCK *ext_superblock, char *bnombre,  FILE *fich){
+   if(ExisteFich(directorio, inodos, bnombre) == 0){
+      //borrar
+      return 0;
+   } else {
+      printf("ERROR: fichero no encontrado.\n");
+      return 0;
+   }
+}
 
 
 
