@@ -4,6 +4,7 @@
 #include "cabeceras.h"
 
 #define LONGITUD_COMANDO 100
+int inodos_c;
 
 void Printbytemaps(EXT_BYTE_MAPS *ext_bytemaps);
 int ComprobarComando(char *strcomando, char *orden, char *argumento1, char *argumento2);
@@ -92,7 +93,7 @@ void LeeSuperBloque(EXT_SIMPLE_SUPERBLOCK *psup){
 void Directorio(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos){
 	//Recorre el directorio
     	//i=1 evitando el directorio raiz
-	for(int i=1; i<inodos_count+1; i++){
+	for(int i=1; i<inodos_c+1; i++){
 		printf("%s ",directorio[i].dir_nfich); //imprime nombre
 		printf("Tamaño:%d", inodos->blq_inodos[directorio[i].dir_inodo].size_fichero); //imprime tamaño
 		printf("Inodo:%d",directorio[i].dir_inodo); // imprime inodo
@@ -108,7 +109,7 @@ void Directorio(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos){
 	printf("\n");
 }
 
-int ComprobarFichero(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos, char *nombre){
+int BuscaFich(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos, char *nombre){
 	//recorre el directorio
 	int i = 0;
 	while(i < MAX_FICHEROS){
@@ -125,8 +126,8 @@ return 1; //si el inodo es nulo o no existe tal fichero, devuelve 1
 //la funcion devolvera 1 si encuentra algun error en el fichero a renombrar o en el nombre nuevo
 
 int Renombrar(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos, char *nombreantiguo, char *nombrenuevo){  
-   	if(ComprobarFichero(directorio, inodos, nombreantiguo) == 0){           //busca el fichero a renombrar, si existe pasa a la siguiente comprobacion   
-   		if(ComprobarFichero(directorio, inodos, nombrenuevo) == 1) {         //busca que el nombre nuevo no exista en ningun fichero ya existente      
+   	if(BuscaFich(directorio, inodos, nombreantiguo) == 0){           //busca el fichero a renombrar, si existe pasa a la siguiente comprobacion   
+   		if(BuscaFich(directorio, inodos, nombrenuevo) == 1) {         //busca que el nombre nuevo no exista en ningun fichero ya existente      
         		for(int i = 0; i < MAX_FICHEROS; i++){                       //recorre el directorio       
         			if(strcmp(directorio[i].dir_nfich, nombreantiguo) == 0){         
                			strcpy(directorio[i].dir_nfich, nombrenuevo);         //renombra el fichero
