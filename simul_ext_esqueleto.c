@@ -106,3 +106,50 @@ void Printbytemaps(EXT_BYTE_MAPS *ext_bytemaps) {
     
     printf("\n");
 }
+
+//Superblock information
+void LeeSuperBloque(EXT_SIMPLE_SUPERBLOCK *psup){
+    printf("Bloque %d Bytes\n", psup->s_block_size);
+    printf("inodos particion = %d\n", psup->s_inodes_count);
+    printf("inodos libres = %d\n", psup->s_free_inodes_count);
+    printf("Bloques particion %d\n", psup->s_blocks_count);
+    printf("Bloques libres = %d\n", psup->s_free_blocks_count);
+    printf("Primer bloque de datos = %d\n", psup->s_first_data_block);
+}
+
+void Directorio(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos){
+        
+    //Recorre el directorio
+    //i=1 evitando el directorio raiz
+    for(int i=1; i<inodos_count+1; i++){
+        printf("%s ",directorio[i].dir_nfich); //imprime nombre
+        printf("Tamaño:%d", inodos->blq_inodos[directorio[i].dir_inodo].size_fichero); //imprime tamaño
+        printf("Inodo:%d",directorio[i].dir_inodo); // imprime inodo
+        printf("Bloques:"); //imprime bloques
+        //bloques ocupados por cada fichero
+        for(int j=0; j<MAX_NUMS_BLOQUE_INODO; j++){
+            if( inodos->blq_inodos[directorio[i].dir_inodo].i_nbloque[j]!= 65535){
+                printf("%d ",inodos->blq_inodos[directorio[i].dir_inodo].i_nbloque[j]);
+            }
+	}
+        printf("\n");
+    }
+    printf("\n");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
