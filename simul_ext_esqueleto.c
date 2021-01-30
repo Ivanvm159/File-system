@@ -4,7 +4,6 @@
 #include "cabeceras.h"
 
 #define LONGITUD_COMANDO 100
-int inodos_c;
 
 void Printbytemaps(EXT_BYTE_MAPS *ext_bytemaps);
 int ComprobarComando(char *strcomando, char *orden, char *argumento1, char *argumento2);
@@ -93,6 +92,7 @@ void LeeSuperBloque(EXT_SIMPLE_SUPERBLOCK *psup){
 void Directorio(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos){
 	//Recorre el directorio
     	//i=1 evitando el directorio raiz
+	int inodos_c;
 	for(int i=1; i<inodos_c+1; i++){
 		printf("%s ",directorio[i].dir_nfich); //imprime nombre
 		printf("Tamaño:%d", inodos->blq_inodos[directorio[i].dir_inodo].size_fichero); //imprime tamaño
