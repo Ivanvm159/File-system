@@ -90,23 +90,6 @@ int main()
      }
 }
 
-void Printbytemaps(EXT_BYTE_MAPS *ext_bytemaps) {
-    //Print inodos
-    printf("Inodos:");
-    for(int i=0; i<MAX_INODOS; i++){
-        printf("%u ",ext_bytemaps->bmap_inodos[i]);
-    }
-    
-    //Print Bloques
-    printf("\nBloques [0-25] :");
-    
-    for(int i=0; i<MAX_BLOQUES_PARTICION; i++){
-        printf("%d ",ext_bytemaps->bmap_bloques[i]);
-    }
-    
-    printf("\n");
-}
-
 //Superblock information
 void LeeSuperBloque(EXT_SIMPLE_SUPERBLOCK *psup){
     printf("Bloque %d Bytes\n", psup->s_block_size);
@@ -137,8 +120,59 @@ void Directorio(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos){
     printf("\n");
 }
 
+int ComprobarFichero(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos, char *nombre){
+	//recorre el directorio
+	int i = 0;
+	while(i < MAX_FICHEROS){
 
+		if(directorio[i].dir_inodo != NULL_INODO){ // si el inodo no es nulo
+        		if(strcmp(nombre, directorio[i].dir_nfich) == 0){ //si existe el fichero
+            		return 0; //la funcion devuelve 0
+         		}
+      		}
+      	i++;
+   	}
+return 1; //si el inodo es nulo o no existe tal fichero, devuelve 1
+}
 
+//la funcion devolvera 0 si se ejecuta correctamente y renombra los archivos
+//la funcion devolvera 1 si encuentra algun error en el fichero a renombrar o en el nombre nuevo
+int Renombrar(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos, char *nombreantiguo, char *nombrenuevo){  
+   	
+   	if(ComprobarFichero(directorio, inodos, nombreantiguo) == 0){           //busca el fichero a renombrar, si existe pasa a la siguiente comprobacion   
+   		if(ComprobarFichero(directorio, inodos, nombrenuevo) == 1) {         //busca que el nombre nuevo no exista en ningun fichero ya existente      
+        		for(int i = 0; i < MAX_FICHEROS; i++){                       //recorre el directorio       
+        			if(strcmp(directorio[i].dir_nfich, nombreantiguo) == 0){         
+               			strcpy(directorio[i].dir_nfich, nombrenuevo);         //renombra el fichero
+               		return 0;        
+           		}      
+        	}      
+      	} else {
+        	 printf("ERROR: ya existe un fichero con ese nombre.\n");  //si el nuevo nombre ya pertenece a un fichero, devuelve un error
+        	 return 1;
+      	}
+   	} else {
+   	   printf("ERROR: no existe un fichero con ese nombre.\n");   //si no se encuentra el fichero a renombrar, devuelve un error
+   	   return 1;
+   	}
+}
+
+void Printbytemaps(EXT_BYTE_MAPS *ext_bytemaps) {
+    //Print inodos
+    printf("Inodos:");
+    for(int i=0; i<MAX_INODOS; i++){
+        printf("%u ",ext_bytemaps->bmap_inodos[i]);
+    }
+    
+    //Print Bloques
+    printf("\nBloques [0-25] :");
+    
+    for(int i=0; i<MAX_BLOQUES_PARTICION; i++){
+        printf("%d ",ext_bytemaps->bmap_bloques[i]);
+    }
+    
+    printf("\n");
+}
 
 
 
