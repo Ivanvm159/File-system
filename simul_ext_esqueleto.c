@@ -207,12 +207,12 @@ int BuscaFich(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos, char *nombre)
 
         if(directorio[i].dir_inodo != NULL_INODO){
             if(strcmp(nombre, directorio[i].dir_nfich) == 0){
-                return 0; //si el inodo no es nulo y el nombre de fichero existe, devuelve 0
+                return 0; //Siempre que el inodo no sea nulo y que se encuentre el fichero, devuelve 0
             }
         }
     i++;
     }
-return 1; //si no se encuentra el fichero, devuelve 1.
+return 1; //si no existe el fichero, devuelve 1.
 }
 
 
@@ -226,7 +226,7 @@ int Renombrar(EXT_ENTRADA_DIR *directorio, EXT_BLQ_INODOS *inodos, char *nombrea
         //Recorrera el fichero hasta encontrar el que coincide con el nombre a renombrar      
         for(int i = 0; i < MAX_FICHEROS; i++){
             if(strcmp(directorio[i].dir_nfich, nombreantiguo) == 1){
-            //Una vez lo encuentra "return 1" lo renombra
+            //Una vez lo encuentra "return 1", lo renombra
                strcpy(directorio[i].dir_nfich, nombrenuevo);
                return 0;        
            }      
